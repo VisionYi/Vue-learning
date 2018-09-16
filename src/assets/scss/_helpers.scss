@@ -1,0 +1,58 @@
+@each $size, $value in $spacing-map {
+  .mr-#{$size} {
+    margin-right: $value !important;
+  }
+  .mb-#{$size} {
+    margin-bottom: $value !important;
+  }
+}
+
+.ml-auto {
+  margin-left: auto !important;
+}
+.mx-auto {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+@each $size, $value in $font-size-map {
+  .text-#{$size} {
+    font-size: $value !important;
+    line-height: map-get($line-height-map, $size) !important;
+  }
+}
+
+.text-color-b {
+  color: $color-text !important;
+}
+
+.d-f {
+  display: flex !important;
+}
+.d-f-center {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+}
+.d-f-center-h {
+  display: flex !important;
+  align-items: center;
+}
+.d-f-center-w {
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+}
+.d-n {
+  display: none !important;
+}
+
+.h-100 {
+  height: 100% !important;
+}
+.w-100 {
+  width: 100% !important;
+}
+.flex-filled {
+  flex: 1 1 auto !important;
+}

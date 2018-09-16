@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue EX-01</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+</head>
+<body>
+    <style>
+        .output-count {
+            font-size: 30px;
+        }
+        .output-text {
+            margin-left: 15px;
+            font-size: 20px;
+        }
+        .input {
+            width: 50px;
+            height: 20px;
+        }
+        .class-color {
+            color: red;
+            font-style: italic;
+        }
+        button {
+            cursor: pointer;
+        }
+    </style>
+
+    <div id="app">
+        <h1>{{ title }}</h1>
+
+        <span class="output-count" :style="styleColor">{{ count }}</span>
+        <span :class="classColor" v-if="count !== 0">{{ countText }}</span>
+        <br>
+        <br>
+        <label>設定數字 : </label>
+        <input type="number" class="input" v-model.number="initialNumber" @change="setCount" @keyup="setCount">
+        <br>
+        <br>
+        <button @click="count += addSubNumber">{{ `+${addSubNumber}` }}</button>
+        <button @click="count -= addSubNumber">{{ `-${addSubNumber}` }}</button>
+        <button @click="count = 0">歸零</button>
+        <br>
+        <br>
+        <label>增加/減少的數字 : </label>
+        <input type="number" class="input" min="1" v-model.number="addSubNumber" @keyup="prohibit">
+    </div>
+
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                title: 'Vue EX-01',
+                count: 0,
+                initialNumber: 0,
+                addSubNumber: 1,
+            },
+            created() {
+                this.title = this.title + ' Counter';
+            },
+            computed: {
+                countText() {
+                    return this.count < 0 ? '(負數)' : '(正整數)';
+                },
+                styleColor() {
+                    if (this.count === 0) return {};
+                    return {
+                        color: this.count < 0 ? 'red' : 'blue',
+                    };
+                },
+                classColor() {
+                    return {
+                        'output-text': true,
+                        'class-color': this.count < 0 ? true : false,
+                    }
+                }
+            },
+            methods: {
+                setCount() {
+                    this.count = this.initialNumber ? this.initialNumber : 0;
+                },
+                prohibit() {
+                    if (this.addSubNumber < 1) {
+                        this.addSubNumber = 1;
+                    }
+                }
+            },
+        });
+    </script>
+</body>
+</html>

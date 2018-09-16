@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue EX-04</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="./grid-system.min.css">
+    <link rel="stylesheet" href="./style.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app" class="container">
+        <h1>Vue EX-04 Todo List (完整版-正確地組件化-只讓父層的單一 UI 元件與重複的功能組件化)</h1>
+        <hr>
+        <div class="grid-12 center tablet-2">
+            <div class="col-6 fill-tablet">
+                <add-todo></add-todo>
+            </div>
+            <div class="w-100"></div>
+            <div class="col-4">
+                <h2>Todo List :</h2>
+                <list-module :list-state="todoState"></list-module>
+            </div>
+            <div class="col-4">
+                <h2>Done List :</h2>
+                <list-module :list-state="doneState"></list-module>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/x-template" id="add-todo">
+        <div class="input-group mb-3">
+            <input
+                type="text"
+                class="form-control"
+                placeholder="To do..."
+                v-model.trim="newTodoText"
+                @keyup.enter="addTodoItem"
+                autofocus
+            >
+            <div class="input-group-append">
+                <button class="btn btn-success" @click="addTodoItem">add</button>
+            </div>
+        </div>
+    </script>
+
+    <script type="text/x-template" id="item-module">
+        <div>
+            <div v-if="!isEditedState">
+                <input type="checkbox" :id="item.id" v-model="item.completed" @change="changeCheck">
+                <label class="text" :for="item.id">{{ item.text }}</label>
+                <button class="btn btn-info btn-sm" @click="intoEdited">✏️</button>
+                <button class="btn btn-danger btn-sm" @click="deleteItem">🗑</button>
+            </div>
+            <div v-else>
+                <input
+                    type="text"
+                    v-model.trim="item.text"
+                    @keyup.enter="confirmEdit"
+                    @keyup.esc="cancelEdit"
+                >
+                <button class="btn btn-info btn-sm" @click="confirmEdit">確定</button>
+                <button class="btn btn-secondary btn-sm" @click="cancelEdit">取消</button>
+            </div>
+        </div>
+    </script>
+
+    <script type="text/x-template" id="list-module">
+        <div>
+            <div v-if="!isNothing" style="margin: 10px 20px">
+                <button class="btn btn-success" @click="isCheckAll">{{ isCheck }} All</button>
+                <button class="btn btn-danger"  @click="deleteAll">Delete All</button>
+            </div>
+            <ul>
+                <li class="item" v-for="item in list" :key="item.id">
+                    <item-module :out-item="item"></item-module>
+                </li>
+            </ul>
+        </div>
+    </script>
+
+    <script src="./script-ex-4.js"></script>
+</body>
+</html>

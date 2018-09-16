@@ -1,0 +1,39 @@
+{
+  "users": [
+    {
+      "id": "admin",
+      "password": "admin",
+      "lastLoginDate": null,
+      "tokenId": null
+    },
+    {
+      "id": "user1",
+      "password": "user1",
+      "lastLoginDate": null,
+      "tokenId": null
+    }
+  ],
+  "todoList": [
+    {
+      "id": "1",
+      "userId": "admin",
+      "text": "admin TEST",
+      "completed": false,
+      "updateDate": "2018-01-02 12:20"
+    },
+    {
+      "id": "2",
+      "userId": "admin",
+      "text": "Second TEST",
+      "completed": false,
+      "updateDate": "2018-02-01 23:00"
+    },
+    {
+      "id": "3",
+      "userId": "user1",
+      "text": "user1 TEST",
+      "completed": false,
+      "updateDate": "2018-05-01 00:00"
+    }
+  ]
+}

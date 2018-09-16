@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue EX-02</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="./grid-system.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+</head>
+<body>
+    <style>
+        .item button {
+            vertical-align: unset;
+        }
+        .item .text {
+            font-size: 20px;
+            margin: 0 10px;
+            cursor: pointer;
+        }
+    </style>
+    <div id="app" class="container">
+        <h1>Vue EX-02 Todo List (無編輯版 & doneList 改成簡易的組件)</h1>
+        <hr>
+        <div class="grid-12 center tablet-2">
+            <div class="col-6 fill-tablet">
+                <div class="input-group mb-3">
+                    <input
+                        type="text"
+                        class="form-control"
+                        placeholder="To do..."
+                        v-model.trim="newTodo"
+                        @keyup.enter="addTodo"
+                        autofocus
+                    >
+                    <div class="input-group-append">
+                        <button class="btn btn-success" @click="addTodo">add</button>
+                    </div>
+                    <button class="btn btn-danger" style="margin-left: 10px" @click="removeAll">Delete All</button>
+                </div>
+            </div>
+            <div class="w-100"></div>
+            <div class="col-4">
+                <h2>Todo List :</h2>
+                <ul>
+                    <li class="item" v-for="item in filter(list, 'todo')" :key="item.id">
+                        <input type="checkbox" :id="item.id" v-model="item.completed">
+                        <label class="text" :for="item.id">{{ item.text }}</label>
+                        <button class="btn btn-danger btn-sm" @click="removeTodo(item)">🗑</button>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-4">
+                <h2>Done List :</h2>
+                <done-list
+                    :done-list="filter(list, 'done')"
+                    @delete-done="removeTodo"
+                    @change-check="changeDoneCheck"
+                ></done-list>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/x-template" id="done-list">
+        <ul>
+            <li class="item" v-for="item in doneList" :key="item.id">
+                <input type="checkbox" :id="item.id" :checked="item.completed" @change="changeCheck(item)">
+                <label class="text" :for="item.id">{{ item.text }}</label>
+                <button class="btn btn-danger btn-sm" @click="deleteDone(item)">🗑</button>
+            </li>
+        </ul>
+    </script>
+
+    <script>
+        const STORAGE_KEY = 'ex-2-todoList';
+        const getRandomId = (number = 5) => Math.random().toString(36).substr(2, number);
+        const getListData = () => JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+
+        Vue.component('done-list', {
+            template: '#done-list',
+            props: {
+                doneList: Array
+            },
+            // 當需要改變父層內容時，都需要綁定事件去讓父層自動觸發
+            methods: {
+                deleteDone(item) {
+                    this.$emit('delete-done', item);
+                },
+                changeCheck(item) {
+                    this.$emit('change-check', item);
+                }
+            }
+        });
+
+        const app = new Vue({
+            el: '#app',
+            data: {
+                list: getListData(),
+                newTodo: '',
+            },
+            watch: {
+                list: {
+                    handler(newVal, oldVal) {
+                        console.log('save');
+                        this.saveToStorage();
+                    },
+                    deep: true
+                }
+            },
+            methods: {
+                saveToStorage() {
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(this.list));
+                },
+                addTodo() {
+                    if (!this.newTodo) return;
+                    const item = {
+                        id: getRandomId(),
+                        text: this.newTodo,
+                        completed: false,
+                    };
+                    this.list.push(item);
+                    this.newTodo = '';
+                },
+                removeTodo(item) {
+                    this.list.splice(this.list.indexOf(item), 1);
+                },
+                removeAll() {
+                    this.list.splice(0);
+                },
+                filter(list, state) {
+                    if (state === 'todo') return list.filter(item => !item.completed);
+                    if (state === 'done') return list.filter(item => item.completed);
+                },
+                changeDoneCheck(item) {
+                    let newItem = Object.assign({}, item, {completed: !item.completed});
+                    this.list.splice(this.list.indexOf(item), 1, newItem);
+                }
+            },
+        });
+    </script>
+</body>
+</html>

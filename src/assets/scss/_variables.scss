@@ -1,0 +1,76 @@
+$font-size: 1rem; // 16px
+$font-size-s: $font-size * 0.75; // 14px
+$font-size-m: $font-size * 1.25; // 20px
+$font-size-l: $font-size * 1.5; // 24px
+$font-size-xl: $font-size * 2; // 32px
+
+$line-height: 1.5;
+$line-height-m: $font-size-m + 0.5rem;
+$line-height-l: $font-size-l + 0.5rem;
+$line-height-xl: $font-size-xl + 0.5rem;
+
+$spacing: 1rem; // 16px
+$spacing-s: $spacing * 0.5; // 8px
+$spacing-m: $spacing * 1.5; // 24px
+$spacing-l: $spacing * 2.75; // 44px
+$spacing-xl: $spacing * 4.25; // 68px
+
+// Map 版本，常使用 @each ... in 、 map-get(map, key)
+$font-size-map: (
+  'b': $font-size,
+  's': $font-size-s,
+  'm': $font-size-m,
+  'l': $font-size-l,
+  'xl': $font-size-xl,
+);
+$line-height-map: (
+  'b': $line-height,
+  's': $line-height,
+  'm': $line-height-m,
+  'l': $line-height-l,
+  'xl': $line-height-xl,
+);
+$spacing-map: (
+  'b': $spacing,
+  's': $spacing-s,
+  'm': $spacing-m,
+  'l': $spacing-l,
+  'xl': $spacing-xl,
+);
+
+// color 配置
+$blue: #00B8D4;
+$red: #E30041;
+$orange: #E36A00;
+$green: #00C54B;
+
+$color-primary: $blue;
+$color-error: $red;
+$color-warning: $orange;
+$color-success: $green;
+
+$color-text: #333;
+$color-text-light: lighten($color-text, 25);
+$color-text-lighter: lighten($color-text, 35);
+$color-text-reverse: rgb(255, 255, 255);
+$color-text-reverse-light: rgba(255, 255, 255, 0.6);
+
+$color-line: #BDBDBD;
+$color-line-light: lighten($color-line, 10);
+$color-line-lighter: lighten($color-line, 14);
+
+$color-bg-base: #fff;
+$color-bg: #e6e6e6;
+$color-bg-light: lighten($color-bg, 5);
+$color-bg-lighter: lighten($color-bg, 8);
+$color-bg-cover: rgba(255, 255, 255, 0.1);
+
+// media query 斷點範圍
+$breakpoint-areas: (
+  large: '(min-width: 1400px)',
+  desktop: '(min-width: 992px)',
+  tablet-up: '(min-width: 768px)',
+  tablet: '(max-width: 991.99px) and (min-width: 768px)',
+  tablet-down: '(max-width: 991.99px)',
+  mobile: '(max-width: 767.99px)',
+);

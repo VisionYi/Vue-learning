@@ -1,0 +1,166 @@
+// 這裡為 element & structure (layout) 兩種類型，內容多的話可以分出資料夾
+
+/* structure (layout) */
+
+// 容器版面結構 (覆蓋其他框架的 .container)
+.container {
+  margin: 0 auto;
+  padding: 0 15px;
+
+  @include respond-to('large') {
+    max-width: 1320px;
+  }
+
+  &-fluid {
+    @include respond-to('tablet-down') {
+      max-width: 960px;
+    }
+    @include respond-to('desktop') {
+      padding-left: 30px;
+      padding-right: 30px;
+    }
+  }
+
+  &-fullwidth {
+    width: 100%;
+    overflow: hidden;
+  }
+}
+
+// 商品結構
+%i-product-style {
+  font-size: $font-size;
+  line-height: $line-height;
+  margin-bottom: $spacing-s;
+}
+
+.i-product {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+
+  &--right {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  $this: &;
+
+  &__link {
+    display: inherit;
+    flex-direction: inherit;
+    align-items: inherit;
+    color: inherit;
+
+    &:hover {
+      color: inherit;
+
+      #{$this}__name {
+        color: $color-primary;
+      }
+    }
+  }
+
+  img {
+    width: 100%;
+    border-radius: 5%;
+    margin-bottom: $spacing-m;
+  }
+
+  &__tag {
+    font-size: $font-size-s;
+    color: $color-warning;
+
+    &--keep-h {
+      height: 1.75rem;
+    }
+  }
+
+  &__name {
+    @extend %i-product-style;
+  }
+
+  &__price {
+    @extend %i-product-style;
+
+    &--delete {
+      color: $color-text-lighter;
+      text-decoration: line-through;
+      margin-bottom: 0;
+    }
+  }
+
+  &__discount {
+    @extend %i-product-style;
+    color: $color-error;
+    font-style: italic;
+  }
+}
+
+.i-list {
+  margin-bottom: $spacing-l;
+
+  &__item {
+    margin-bottom: $spacing-s;
+
+    &:before {
+      @include font-awesome-icon('\f0da');
+      position: relative;
+      top: -1.6px;
+      font-size: $font-size-s;
+      margin-right: $spacing-s;
+    }
+
+    &--title {
+      font-weight: bold;
+      &:before {
+        content: '';
+        margin-right: 0;
+      }
+    }
+  }
+}
+
+// ===================================
+
+/* element 單一元素 */
+
+// 自訂的 input 元素系列
+.i-input,
+.i-select,
+.i-textarea {
+  background-color: $color-bg-base;
+  border: 1px solid $color-line;
+  border-radius: 0.25em;
+  min-width: 0;
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 0.125em rgba(0,125,255,.25);
+    border-color: $color-primary;
+  }
+}
+.i-select {
+  padding: 0 0.2em;
+  cursor: pointer;
+}
+
+// vuetify button (覆蓋)
+.application .btn {
+  text-transform: initial;
+  font-size: inherit;
+  margin: 0;
+}
+
+// vuetify toolbar (覆蓋)
+.application .toolbar__content {
+  height: auto !important;
+}
+
+// vuetify icon (覆蓋)
+.application .icon {
+  font-size: inherit;
+  color: inherit;
+  vertical-align: initial;
+}

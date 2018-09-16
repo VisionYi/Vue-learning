@@ -1,0 +1,21 @@
+.item button {
+    vertical-align: unset;
+}
+.item .text {
+    font-size: 20px;
+    margin: 0 10px;
+    cursor: pointer;
+}
+
+.item input[type="checkbox"] {
+    display: none;
+}
+
+.item input[type="checkbox"] + label.text:before {
+    content: '🔲';
+    margin-right: 10px;
+}
+
+.item input[type="checkbox"]:checked + label.text:before {
+    content: '✅';
+}
